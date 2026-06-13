@@ -49,7 +49,30 @@
             --c-keuangan: #a05c0a;
             --c-tanaman:  #2e7d32;
             --c-nutrisi:  #8d3b1a;
-            --c-tetas:    #8b3a4a;
+            --c-tetas:    #7a4a2e;
+            /* Tetas — earthy sub-palette */
+            --c-tetas-soft:     #f4ece4;
+            --c-tetas-border:   #e6d6c7;
+            --c-bebek:          #5f6b47;
+            --c-bebek-soft:     #eef0e4;
+            --c-bebek-border:   #dde2cd;
+            --c-ayam:           #b07d3a;
+            --c-ayam-soft:      #f8eede;
+            --c-ayam-border:    #efddc0;
+            --c-tetas-neutral:  #9c9082;
+            --c-tetas-neutral-dk:#6e6456;
+            --c-tetas-embrio:   #ad7233;
+            --c-tetas-embrio-dk:#8a5722;
+            --c-tetas-embrio-soft:#f8efe2;
+            --c-tetas-embrio-border:#ecdac4;
+            --c-tetas-success:  #5a7840;
+            --c-tetas-success-dk:#4d6228;
+            --c-tetas-success-soft:#eef2e6;
+            --c-tetas-highlight:#a8632a;
+            --c-tetas-highlight-soft:#f7ecdd;
+            --c-tetas-progress: #9c7b3f;
+            --c-tetas-progress-soft:#f6f0e3;
+            --c-tetas-progress-border:#ece2cc;
         }
         * { box-sizing: border-box; }
         body { font-family: 'Plus Jakarta Sans', 'Segoe UI', system-ui, -apple-system, sans-serif; background-color: var(--bg); color: var(--dark); -webkit-tap-highlight-color: transparent; }
@@ -783,93 +806,104 @@
 
             <!-- HEADER CARD: summary + tombol aksi dalam satu kartu -->
             <div class="earth-card overflow-hidden" style="border-top:4px solid var(--c-tetas)">
-                <!-- Summary Stats: pisah Bebek & Ayam -->
-                <div class="px-0 pt-0 pb-0" style="background:#fdf9fb">
-                    <!-- Label kolom -->
-                    <div class="grid grid-cols-3 px-4 pt-2.5 pb-1" style="border-bottom:1px solid #f0e8ec">
-                        <div></div>
-                        <div class="text-center">
-                            <span class="text-[8px] font-black uppercase tracking-wider" style="color:#8b3a4a">🦆 Bebek</span>
+                <!-- Summary Stats: card per jenis unggas -->
+                <div class="grid grid-cols-2 gap-3 p-3" style="background:#fcfaf6">
+                    <!-- AYAM CARD -->
+                    <div class="rounded-2xl overflow-hidden border" style="border-color:var(--c-ayam-border)">
+                        <div class="flex items-center gap-1.5 px-3 py-1.5" style="background:var(--c-ayam-soft)">
+                            <span class="text-[10px]">🐔</span>
+                            <span class="text-[8px] font-black uppercase tracking-wide" style="color:var(--c-ayam)">Ayam</span>
                         </div>
-                        <div class="text-center">
-                            <span class="text-[8px] font-black uppercase tracking-wider" style="color:#a05c0a">🐔 Ayam</span>
+                        <div class="px-3 py-2.5 space-y-2 bg-white">
+                            <div class="flex items-center justify-between">
+                                <span class="text-[8px] font-bold uppercase tracking-wide" style="color:var(--c-tetas-neutral)">Telur Masuk</span>
+                                <span id="tts-ayam-masuk" class="text-[15px] font-black text-[#4a3728]">0</span>
+                            </div>
+                            <div class="flex items-center justify-between">
+                                <span class="text-[8px] font-bold uppercase tracking-wide" style="color:var(--c-tetas-neutral)">Non Fertil</span>
+                                <span id="tts-ayam-nonfertil" class="text-[13px] font-black" style="color:#8a8275">0</span>
+                            </div>
+                            <div class="flex items-center justify-between">
+                                <span class="text-[8px] font-bold uppercase tracking-wide" style="color:var(--c-tetas-embrio)">Mati Embrio</span>
+                                <span id="tts-ayam-matiembrio" class="text-[13px] font-black" style="color:var(--c-tetas-embrio)">0</span>
+                            </div>
+                            <div class="flex items-center justify-between pt-2" style="border-top:1px dashed var(--c-ayam-border)">
+                                <span class="text-[8px] font-bold uppercase tracking-wide" style="color:var(--c-tetas-success)">DOC Berhasil ✓</span>
+                                <span id="tts-ayam-dod" class="text-[15px] font-black" style="color:var(--c-tetas-success-dk)">0</span>
+                            </div>
+                            <div class="flex items-center justify-between">
+                                <span class="text-[8px] font-bold uppercase tracking-wide flex items-center gap-0.5" style="color:var(--c-tetas-success-dk)">Fertilitas <i onclick="event.stopPropagation();tetasInfo('fertilitas')" class="ph-fill ph-info" style="font-size:9px;opacity:0.6;cursor:pointer"></i></span>
+                                <span id="tts-ayam-fertrate" class="text-[13px] font-black" style="color:var(--c-tetas-success-dk)">-</span>
+                            </div>
                         </div>
-                    </div>
-                    <!-- Baris: Telur Masuk -->
-                    <div class="grid grid-cols-3 px-4 py-1.5" style="border-bottom:1px solid #f5f0ea">
-                        <span class="text-[8px] font-black uppercase tracking-wide self-center" style="color:#a8a397">Telur Masuk</span>
-                        <span id="tts-bebek-masuk" class="text-[13px] font-black text-[#4a3728] text-center">0</span>
-                        <span id="tts-ayam-masuk" class="text-[13px] font-black text-[#4a3728] text-center">0</span>
-                    </div>
-                    <!-- Baris: Non Fertil -->
-                    <div class="grid grid-cols-3 px-4 py-1.5" style="border-bottom:1px solid #f5f0ea">
-                        <span class="text-[8px] font-black uppercase tracking-wide self-center" style="color:#b0a99c">Non Fertil</span>
-                        <span id="tts-bebek-nonfertil" class="text-[13px] font-black text-center" style="color:#8a8275">0</span>
-                        <span id="tts-ayam-nonfertil" class="text-[13px] font-black text-center" style="color:#8a8275">0</span>
-                    </div>
-                    <!-- Baris: Mati Embrio -->
-                    <div class="grid grid-cols-3 px-4 py-1.5" style="border-bottom:1px solid #f5f0ea">
-                        <span class="text-[8px] font-black uppercase tracking-wide self-center" style="color:#dda15e">Mati Embrio</span>
-                        <span id="tts-bebek-matiembrio" class="text-[13px] font-black text-center" style="color:#a06820">0</span>
-                        <span id="tts-ayam-matiembrio" class="text-[13px] font-black text-center" style="color:#a06820">0</span>
-                    </div>
-                    <!-- Baris: DOC/DOD Berhasil -->
-                    <div class="grid grid-cols-3 px-4 py-1.5" style="border-bottom:1px solid #f5f0ea">
-                        <span class="text-[8px] font-black uppercase tracking-wide self-center" style="color:#5a7840">Berhasil ✓</span>
-                        <div class="text-center">
-                            <span class="text-[7px] font-bold block" style="color:#8b3a4a">DOD</span>
-                            <span id="tts-bebek-dod" class="text-[13px] font-black" style="color:#4d6228">0</span>
-                        </div>
-                        <div class="text-center">
-                            <span class="text-[7px] font-bold block" style="color:#a05c0a">DOC</span>
-                            <span id="tts-ayam-dod" class="text-[13px] font-black" style="color:#4d6228">0</span>
+                        <div class="px-3 py-2.5 text-center" style="background:var(--c-tetas-highlight-soft);border-top:1px solid var(--c-ayam-border)">
+                            <p class="text-[8px] font-black uppercase tracking-widest flex items-center justify-center gap-0.5" style="color:var(--c-tetas-highlight)">Daya Tetas <i onclick="event.stopPropagation();tetasInfo('daya_tetas')" class="ph-fill ph-info" style="font-size:9px;opacity:0.6;cursor:pointer"></i></p>
+                            <p id="tts-ayam-dayatetas" class="text-[22px] font-black leading-tight" style="color:var(--c-tetas-highlight)">-</p>
                         </div>
                     </div>
-                    <!-- Baris: Fertilitas -->
-                    <div class="grid grid-cols-3 px-4 py-1.5" style="border-bottom:1px solid #f0e8ec">
-                        <span class="text-[8px] font-black uppercase tracking-wide self-center" style="color:#4d6228">Fertilitas <span onclick="event.stopPropagation();tetasInfo('fertilitas')" style="cursor:pointer"><i class="ph-fill ph-info" style="font-size:9px;vertical-align:middle;opacity:0.6"></i></span></span>
-                        <span id="tts-bebek-fertrate" class="text-[13px] font-black text-center" style="color:#4d6228">-</span>
-                        <span id="tts-ayam-fertrate" class="text-[13px] font-black text-center" style="color:#4d6228">-</span>
-                    </div>
-                    <!-- Daya Tetas — full width split -->
-                    <div class="grid grid-cols-3 px-4 py-2" style="background:#fff3eb;border-top:1px solid #f0e8ec">
-                        <span class="text-[8px] font-black uppercase tracking-wide self-center text-[#bc6c25]">Daya Tetas <span onclick="event.stopPropagation();tetasInfo('daya_tetas')" style="cursor:pointer"><i class="ph-fill ph-info" style="font-size:9px;vertical-align:middle;color:#bc6c25;opacity:0.6"></i></span></span>
-                        <span id="tts-bebek-dayatetas" class="text-[18px] font-black text-center text-[#bc6c25] leading-none">-</span>
-                        <span id="tts-ayam-dayatetas" class="text-[18px] font-black text-center text-[#bc6c25] leading-none">-</span>
+                    <!-- BEBEK CARD -->
+                    <div class="rounded-2xl overflow-hidden border" style="border-color:var(--c-bebek-border)">
+                        <div class="flex items-center gap-1.5 px-3 py-1.5" style="background:var(--c-bebek-soft)">
+                            <span class="text-[10px]">🦆</span>
+                            <span class="text-[8px] font-black uppercase tracking-wide" style="color:var(--c-bebek)">Bebek</span>
+                        </div>
+                        <div class="px-3 py-2.5 space-y-2 bg-white">
+                            <div class="flex items-center justify-between">
+                                <span class="text-[8px] font-bold uppercase tracking-wide" style="color:var(--c-tetas-neutral)">Telur Masuk</span>
+                                <span id="tts-bebek-masuk" class="text-[15px] font-black text-[#4a3728]">0</span>
+                            </div>
+                            <div class="flex items-center justify-between">
+                                <span class="text-[8px] font-bold uppercase tracking-wide" style="color:var(--c-tetas-neutral)">Non Fertil</span>
+                                <span id="tts-bebek-nonfertil" class="text-[13px] font-black" style="color:#8a8275">0</span>
+                            </div>
+                            <div class="flex items-center justify-between">
+                                <span class="text-[8px] font-bold uppercase tracking-wide" style="color:var(--c-tetas-embrio)">Mati Embrio</span>
+                                <span id="tts-bebek-matiembrio" class="text-[13px] font-black" style="color:var(--c-tetas-embrio)">0</span>
+                            </div>
+                            <div class="flex items-center justify-between pt-2" style="border-top:1px dashed var(--c-bebek-border)">
+                                <span class="text-[8px] font-bold uppercase tracking-wide" style="color:var(--c-tetas-success)">DOD Berhasil ✓</span>
+                                <span id="tts-bebek-dod" class="text-[15px] font-black" style="color:var(--c-tetas-success-dk)">0</span>
+                            </div>
+                            <div class="flex items-center justify-between">
+                                <span class="text-[8px] font-bold uppercase tracking-wide flex items-center gap-0.5" style="color:var(--c-tetas-success-dk)">Fertilitas <i onclick="event.stopPropagation();tetasInfo('fertilitas')" class="ph-fill ph-info" style="font-size:9px;opacity:0.6;cursor:pointer"></i></span>
+                                <span id="tts-bebek-fertrate" class="text-[13px] font-black" style="color:var(--c-tetas-success-dk)">-</span>
+                            </div>
+                        </div>
+                        <div class="px-3 py-2.5 text-center" style="background:var(--c-tetas-highlight-soft);border-top:1px solid var(--c-bebek-border)">
+                            <p class="text-[8px] font-black uppercase tracking-widest flex items-center justify-center gap-0.5" style="color:var(--c-tetas-highlight)">Daya Tetas <i onclick="event.stopPropagation();tetasInfo('daya_tetas')" class="ph-fill ph-info" style="font-size:9px;opacity:0.6;cursor:pointer"></i></p>
+                            <p id="tts-bebek-dayatetas" class="text-[22px] font-black leading-tight" style="color:var(--c-tetas-highlight)">-</p>
+                        </div>
                     </div>
                 </div>
                 <!-- Baris tombol aksi -->
-                <div class="grid grid-cols-3 gap-2 p-3 border-t border-[#f0e8ec]" style="background:#fdf9fb">
+                <div class="grid grid-cols-2 gap-2 p-3 border-t" style="background:#fcfaf6;border-color:var(--c-tetas-border)">
                     <button onclick="bukaBatchBaru()" class="py-2.5 text-white font-black rounded-xl text-[9px] uppercase tracking-wider flex items-center justify-center gap-1 active:scale-[0.97] transition shadow-sm" style="background:var(--c-tetas)">
                         <i class="ph-fill ph-egg text-sm"></i> + Batch
                     </button>
-                    <button onclick="exportPDFTetas()" class="py-2.5 font-black rounded-xl text-[9px] uppercase tracking-wider flex items-center justify-center gap-1 active:scale-[0.97] transition border-2" style="color:#8b3a4a;border-color:#e8c9d0;background:#fbeef1">
+                    <button onclick="exportPDFTetas()" class="py-2.5 font-black rounded-xl text-[9px] uppercase tracking-wider flex items-center justify-center gap-1 active:scale-[0.97] transition border-2" style="color:var(--c-tetas);border-color:var(--c-tetas-border);background:var(--c-tetas-soft)">
                         <i class="ph-fill ph-file-pdf text-sm"></i> PDF
-                    </button>
-                    <button onclick="exportExcelTetas()" class="py-2.5 font-black rounded-xl text-[9px] uppercase tracking-wider flex items-center justify-center gap-1 active:scale-[0.97] transition border-2" style="color:#4d6228;border-color:#c8d8a8;background:#f0f5e8">
-                        <i class="ph-fill ph-file-xls text-sm"></i> Excel
                     </button>
                 </div>
 
                 <!-- Panduan singkat collapsible -->
-                <div class="border-t border-[#f0e8ec]">
-                    <button onclick="this.nextElementSibling.classList.toggle('hidden');var _ic=this.querySelector('.ph-caret-down,.ph-caret-up');if(_ic){_ic.classList.toggle('ph-caret-down');_ic.classList.toggle('ph-caret-up');}" class="w-full flex items-center justify-between px-4 py-2" style="background:#fdf4f6">
+                <div class="border-t" style="border-color:var(--c-tetas-border)">
+                    <button onclick="this.nextElementSibling.classList.toggle('hidden');var _ic=this.querySelector('.ph-caret-down,.ph-caret-up');if(_ic){_ic.classList.toggle('ph-caret-down');_ic.classList.toggle('ph-caret-up');}" class="w-full flex items-center justify-between px-4 py-2" style="background:var(--c-tetas-soft)">
                         <span class="text-[8px] font-black uppercase tracking-widest flex items-center gap-1" style="color:var(--c-tetas)"><i class="ph-fill ph-info" style="font-size:12px"></i> Panduan Alur Penetasan</span>
                         <i class="ph ph-caret-down text-xs" style="color:var(--c-tetas)"></i>
                     </button>
-                    <div class="hidden px-4 pb-3 pt-1" style="background:#fdf4f6">
+                    <div class="hidden px-4 pb-3 pt-1" style="background:var(--c-tetas-soft)">
                         <div class="space-y-0.5 mb-1.5">
                             <p class="text-[8.5px] font-bold text-[#4a3728]"><span style="color:var(--c-tetas)">1.</span> Buat batch → pilih jenis unggas & isi jumlah telur masuk</p>
                             <p class="text-[8.5px] font-bold text-[#4a3728]"><span style="color:var(--c-tetas)">2.</span> Setelah candling → isi Non Fertil</p>
                             <p class="text-[8.5px] font-bold text-[#4a3728]"><span style="color:var(--c-tetas)">3.</span> Catat telur mati embrio lanjutan 🕯️</p>
                             <p class="text-[8.5px] font-bold text-[#4a3728]"><span style="color:var(--c-tetas)">4.</span> Isi DOC/DOD berhasil setelah menetas 🐣</p>
                         </div>
-                        <div class="rounded-lg p-2 mb-1.5" style="background:#fbeef1">
-                            <p class="text-[8px] font-black text-[#8b3a4a] mb-0.5">🦆 Bebek: 28 hari inkubasi</p>
+                        <div class="rounded-lg p-2 mb-1.5" style="background:var(--c-bebek-soft)">
+                            <p class="text-[8px] font-black mb-0.5" style="color:var(--c-bebek)">🦆 Bebek: 28 hari inkubasi</p>
                             <p class="text-[8px] text-slate-500">Candling 1 → hari ke-7 &nbsp;·&nbsp; Candling 2 → hari ke-18</p>
                         </div>
-                        <div class="rounded-lg p-2 mb-1.5" style="background:#fff8ee">
-                            <p class="text-[8px] font-black text-[#a05c0a] mb-0.5">🐔 Ayam: 21 hari inkubasi</p>
+                        <div class="rounded-lg p-2 mb-1.5" style="background:var(--c-ayam-soft)">
+                            <p class="text-[8px] font-black mb-0.5" style="color:var(--c-ayam)">🐔 Ayam: 21 hari inkubasi</p>
                             <p class="text-[8px] text-slate-500">Candling 1 → hari ke-7 &nbsp;·&nbsp; Candling 2 → hari ke-14</p>
                         </div>
                         <p class="text-[8px] text-slate-400 leading-snug"><b>Fertil Aktif</b> = Fertil − Mati Embrio &nbsp;·&nbsp; <b>Daya Tetas</b> = DOC/DOD ÷ Fertil</p>
@@ -1314,28 +1348,28 @@
                     <div>
                         <label class="input-label">Jenis Unggas</label>
                         <div class="grid grid-cols-2 gap-2">
-                            <button type="button" id="nb-unggas-bebek" onclick="pilihUnggasTetas('bebek','nb')" class="py-2.5 rounded-2xl border-2 font-black text-[10px] transition" style="border-color:#8b3a4a;background:#fbeef1;color:#8b3a4a">🦆 Bebek <span class="font-normal opacity-70">(28 hari)</span></button>
+                            <button type="button" id="nb-unggas-bebek" onclick="pilihUnggasTetas('bebek','nb')" class="py-2.5 rounded-2xl border-2 font-black text-[10px] transition" style="border-color:var(--c-tetas);background:var(--c-tetas-soft);color:var(--c-tetas)">🦆 Bebek <span class="font-normal opacity-70">(28 hari)</span></button>
                             <button type="button" id="nb-unggas-ayam" onclick="pilihUnggasTetas('ayam','nb')" class="py-2.5 rounded-2xl border-2 font-black text-[10px] transition" style="border-color:#e9e4d0;background:white;color:#888">🐔 Ayam <span class="font-normal opacity-70">(21 hari)</span></button>
                         </div>
                     </div>
                     <div class="grid grid-cols-2 gap-3">
                         <div><label class="input-label">Tanggal Masuk Mesin</label>
-                            <input type="date" id="nb-tgl" value="${today}" class="w-full border-2 border-[#e9e4d0] p-3 rounded-2xl outline-none font-bold focus:border-[#8b3a4a]"></div>
+                            <input type="date" id="nb-tgl" value="${today}" class="w-full border-2 border-[#e9e4d0] p-3 rounded-2xl outline-none font-bold focus:border-[var(--c-tetas)]"></div>
                         <div><label class="input-label">Jumlah Telur Masuk</label>
-                            <input type="number" id="nb-jml" inputmode="numeric" value="0" onfocus="autoKosong(this)" onblur="restoreZero(this)" class="w-full border-2 border-[#e9e4d0] p-3 rounded-2xl outline-none font-black focus:border-[#8b3a4a]"></div>
+                            <input type="number" id="nb-jml" inputmode="numeric" value="0" onfocus="autoKosong(this)" onblur="restoreZero(this)" class="w-full border-2 border-[#e9e4d0] p-3 rounded-2xl outline-none font-black focus:border-[var(--c-tetas)]"></div>
                     </div>
                     <p class="text-[8px] text-slate-500 leading-snug -mt-1">💡 Fertilitas (Non Fertil) belum diketahui saat ini — bisa dicatat belakangan setelah candling awal, lewat kartu batch.</p>
                     <div><label class="input-label">Nama / Label Batch (Opsional)</label>
-                        <input type="text" id="nb-nama" placeholder="Misal: Batch Januari, New Hope Hilks..." class="w-full border-2 border-[#e9e4d0] p-3 rounded-2xl outline-none focus:border-[#8b3a4a] transition"></div>
+                        <input type="text" id="nb-nama" placeholder="Misal: Batch Januari, New Hope Hilks..." class="w-full border-2 border-[#e9e4d0] p-3 rounded-2xl outline-none focus:border-[var(--c-tetas)] transition"></div>
                     <div><label class="input-label">Catatan Awal</label>
-                        <input type="text" id="nb-catatan" placeholder="Opsional..." class="w-full border-2 border-[#e9e4d0] p-3 rounded-2xl outline-none focus:border-[#8b3a4a]"></div>
+                        <input type="text" id="nb-catatan" placeholder="Opsional..." class="w-full border-2 border-[#e9e4d0] p-3 rounded-2xl outline-none focus:border-[var(--c-tetas)]"></div>
                     <button onclick="simpanBatchBaru()" class="w-full py-4 font-black rounded-2xl uppercase tracking-widest shadow-lg text-white active:scale-95 transition" style="background:var(--c-tetas)">Simpan & Mulai Batch</button>
                 </div>`;
             document.getElementById('modal-info').classList.remove('hidden');
         }
 
         function pilihUnggasTetas(jenis, prefix) {
-            const aktif = 'border-color:#8b3a4a;background:#fbeef1;color:#8b3a4a';
+            const aktif = 'border-color:var(--c-tetas);background:var(--c-tetas-soft);color:var(--c-tetas)';
             const nonAktif = 'border-color:#e9e4d0;background:white;color:#888';
             const elBebek = document.getElementById(prefix + '-unggas-bebek');
             const elAyam  = document.getElementById(prefix + '-unggas-ayam');
@@ -1366,7 +1400,7 @@
             };
             dbTetas.push(batch);
             simpanDB(); closeModal(); renderTabelTetas(); renderSummaryTetas();
-            msg('Batch penetasan dibuat ✓', 'bg-[#8b3a4a]');
+            msg('Batch penetasan dibuat ✓', 'bg-[#7a4a2e]');
         }
 
         // Render semua batch sebagai card
@@ -1393,7 +1427,7 @@
             const dodRateTotal = b.jmlTelur > 0 ? ((b.dod/(b.jmlTelur||1))*100).toFixed(1) : 0;
             const totalDOD = (b.dod||0) + (b.dodGagal||0);
             const selisihDOD = fertilAktif - totalDOD;
-            const statusColor = b.selesai ? '#2e7d32' : '#8b3a4a';
+            const statusColor = b.selesai ? '#2e7d32' : '#7a4a2e';
             const statusLabel = b.selesai ? '✅ Selesai' : '🔄 Berjalan';
             const namaLabel = b.nama ? escHtml(b.nama) : formatTgl(b.tgl);
 
@@ -1434,19 +1468,19 @@
             // Baris candling
             const candlingRows = (b.candling||[]).map((c,i) => `
                 <div class="flex items-center gap-2 py-1.5 border-b border-dashed" style="border-color:#e9e4d0">
-                    <span class="text-[8px] font-black w-5 text-center" style="color:#bc6c25">${i+1}</span>
+                    <span class="text-[8px] font-black w-5 text-center" style="color:var(--c-tetas-embrio)">${i+1}</span>
                     <span class="text-[9px] font-bold text-slate-600 flex-1">${formatTgl(c.tgl)}</span>
-                    <span class="text-[10px] font-black" style="color:#bc6c25">${c.jumlah} butir</span>
+                    <span class="text-[10px] font-black" style="color:var(--c-tetas-embrio)">${c.jumlah} butir</span>
                     ${c.catatan ? `<span class="text-[8px] text-slate-500 italic truncate max-w-[80px]">${escHtml(c.catatan)}</span>` : ''}
-                    <button onclick="hapusCandling('${b.id}',${i})" style="color:#e07b3a;font-size:12px;padding:2px 4px;background:none;border:none;cursor:pointer"><i class="ph ph-x"></i></button>
+                    <button onclick="hapusCandling('${b.id}',${i})" style="color:var(--c-tetas-embrio-dk);font-size:12px;padding:2px 4px;background:none;border:none;cursor:pointer"><i class="ph ph-x"></i></button>
                 </div>`).join('');
 
             return `<div class="earth-card overflow-hidden" style="border-top:4px solid ${statusColor}" id="batch-${b.id}">
                 <!-- Header batch -->
-                <div class="px-4 py-3 flex items-center justify-between gap-2" style="background:#fbeef1">
+                <div class="px-4 py-3 flex items-center justify-between gap-2" style="background:${isBebek?'var(--c-bebek-soft)':'var(--c-ayam-soft)'}">
                     <div class="flex-1 min-w-0">
                         <div class="flex items-center gap-1.5 mb-0.5">
-                            <span class="text-[9px] font-black px-2 py-0.5 rounded-lg" style="background:${isBebek?'#fbeef1':'#fff8ee'};color:${isBebek?'#8b3a4a':'#a05c0a'};border:1px solid ${isBebek?'#e8c9d0':'#f0d9b0'}">${jenisEmoji} ${jenisLabel}</span>
+                            <span class="text-[9px] font-black px-2 py-0.5 rounded-lg" style="background:${isBebek?'var(--c-bebek-soft)':'var(--c-ayam-soft)'};color:${isBebek?'var(--c-bebek)':'var(--c-ayam)'};border:1px solid ${isBebek?'var(--c-bebek-border)':'var(--c-ayam-border)'}">${jenisEmoji} ${jenisLabel}</span>
                             <span class="text-[8px] font-bold text-slate-400">${lamaInkubasi} hari inkubasi</span>
                         </div>
                         <p class="font-black text-sm text-[#3d348b] truncate">${namaLabel}</p>
@@ -1454,73 +1488,73 @@
                     </div>
                     <div class="flex items-center gap-2 shrink-0">
                         <span class="text-[8px] font-black px-2 py-1 rounded-xl" style="background:${statusColor}18;color:${statusColor}">${statusLabel}</span>
-                        <button onclick="exportPDFBatch('${b.id}')" title="Export PDF Batch Ini" style="color:#8b3a4a;font-size:13px;padding:4px 6px;background:#fbeef1;border:1px solid #e8c9d0;border-radius:8px;cursor:pointer"><i class="ph-fill ph-file-pdf"></i></button>
-                        <button onclick="hapusBatch('${b.id}')" style="color:#bc6c25;font-size:14px;padding:4px;background:#fff5f0;border:1px solid #f4c5a5;border-radius:8px;cursor:pointer"><i class="ph ph-trash"></i></button>
+                        <button onclick="exportPDFBatch('${b.id}')" title="Export PDF Batch Ini" style="color:var(--c-tetas);font-size:13px;padding:4px 6px;background:var(--c-tetas-soft);border:1px solid var(--c-tetas-border);border-radius:8px;cursor:pointer"><i class="ph-fill ph-file-pdf"></i></button>
+                        <button onclick="hapusBatch('${b.id}')" style="color:var(--c-tetas-embrio-dk);font-size:14px;padding:4px;background:var(--c-tetas-embrio-soft);border:1px solid var(--c-tetas-embrio-border);border-radius:8px;cursor:pointer"><i class="ph ph-trash"></i></button>
                     </div>
                 </div>
 
                 ${!b.selesai && inkubasiInfo ? `
                 <!-- Progress inkubasi -->
-                <div class="px-4 py-2" style="background:#f5f0ff;border-bottom:1px solid #e8e0f8">
+                <div class="px-4 py-2" style="background:var(--c-tetas-progress-soft);border-bottom:1px solid var(--c-tetas-progress-border)">
                     <div class="flex items-center justify-between mb-1">
-                        <span class="text-[8px] font-black uppercase tracking-widest" style="color:#6d28d9">⏳ Inkubasi</span>
-                        <span class="text-[8px] font-bold" style="color:#6d28d9">${pctInkubasi}%</span>
+                        <span class="text-[8px] font-black uppercase tracking-widest" style="color:var(--c-tetas-progress)">⏳ Inkubasi</span>
+                        <span class="text-[8px] font-bold" style="color:var(--c-tetas-progress)">${pctInkubasi}%</span>
                     </div>
-                    <div style="height:5px;background:#ede9fe;border-radius:100px;overflow:hidden">
-                        <div style="height:100%;width:${pctInkubasi}%;background:linear-gradient(90deg,#8b5cf6,#6d28d9);border-radius:100px;transition:width 0.5s"></div>
+                    <div style="height:5px;background:var(--c-tetas-progress-border);border-radius:100px;overflow:hidden">
+                        <div style="height:100%;width:${pctInkubasi}%;background:linear-gradient(90deg,#d3b27a,var(--c-tetas-progress));border-radius:100px;transition:width 0.5s"></div>
                     </div>
-                    <p class="text-[8px] font-bold mt-1" style="color:#7c3aed">${inkubasiInfo}</p>
+                    <p class="text-[8px] font-bold mt-1" style="color:var(--c-tetas-progress)">${inkubasiInfo}</p>
                 </div>` : ''}
 
                 <!-- STATS — 2 baris -->
-                <div style="background:#fdf9ff;border-bottom:1px solid #ede9ff">
+                <div style="background:#fbf9f5;border-bottom:1px solid var(--c-tetas-border)">
                     <!-- Baris atas: input telur -->
-                    <div class="grid grid-cols-3 divide-x" style="border-bottom:1px solid #ede9ff;divide-color:#ede9ff">
+                    <div class="grid grid-cols-3 divide-x" style="border-bottom:1px solid var(--c-tetas-border);divide-color:var(--c-tetas-border)">
                         <div class="py-2.5 px-2 text-center">
                             <p class="text-[7px] font-black uppercase tracking-wider mb-0.5 text-slate-400">Telur Masuk</p>
                             <p class="text-[18px] font-black text-[#1e2d12] leading-none">${b.jmlTelur}</p>
                             <p class="text-[7px] font-bold text-slate-300 mt-0.5">butir</p>
                         </div>
                         <div class="py-2.5 px-2 text-center">
-                            <p class="text-[7px] font-black uppercase tracking-wider mb-0.5" style="color:#94a3b8">Non Fertil</p>
-                            <p class="text-[18px] font-black leading-none" style="color:#64748b">${b.nonFertil||0}</p>
-                            <p class="text-[7px] font-bold mt-0.5" style="color:#94a3b8">${pctNonFert}% dari masuk</p>
+                            <p class="text-[7px] font-black uppercase tracking-wider mb-0.5" style="color:var(--c-tetas-neutral)">Non Fertil</p>
+                            <p class="text-[18px] font-black leading-none" style="color:var(--c-tetas-neutral-dk)">${b.nonFertil||0}</p>
+                            <p class="text-[7px] font-bold mt-0.5" style="color:var(--c-tetas-neutral)">${pctNonFert}% dari masuk</p>
                         </div>
-                        <div class="py-2.5 px-2 text-center" style="background:#f0f7ec">
-                            <p class="text-[7px] font-black uppercase tracking-wider mb-0.5" style="color:#4d6228">Fertilitas <span onclick="event.stopPropagation();tetasInfo('fertilitas')" style="cursor:pointer"><i class="ph-fill ph-info" style="font-size:9px;vertical-align:middle;opacity:0.6"></i></span></p>
-                            <p class="text-[18px] font-black leading-none" style="color:#4d6228">${fertRate}%</p>
-                            <p class="text-[7px] font-bold mt-0.5" style="color:#8aab6a">Fertil÷Masuk</p>
+                        <div class="py-2.5 px-2 text-center" style="background:var(--c-tetas-success-soft)">
+                            <p class="text-[7px] font-black uppercase tracking-wider mb-0.5" style="color:var(--c-tetas-success-dk)">Fertilitas <span onclick="event.stopPropagation();tetasInfo('fertilitas')" style="cursor:pointer"><i class="ph-fill ph-info" style="font-size:9px;vertical-align:middle;opacity:0.6"></i></span></p>
+                            <p class="text-[18px] font-black leading-none" style="color:var(--c-tetas-success-dk)">${fertRate}%</p>
+                            <p class="text-[7px] font-bold mt-0.5" style="color:var(--c-tetas-success)">Fertil÷Masuk</p>
                         </div>
                     </div>
                     <!-- Baris bawah: hasil proses -->
-                    <div class="grid grid-cols-4 divide-x" style="divide-color:#ede9ff">
+                    <div class="grid grid-cols-4 divide-x" style="divide-color:var(--c-tetas-border)">
                         <div class="py-2.5 px-1 text-center">
-                            <p class="text-[7px] font-black uppercase tracking-wider mb-0.5" style="color:#dda15e">Mati Embrio</p>
-                            <p class="text-[15px] font-black leading-none" style="color:#a06820">${totalCandling}</p>
-                            <p class="text-[7px] font-bold mt-0.5" style="color:#dda15e">${pctGagalCandling}%</p>
+                            <p class="text-[7px] font-black uppercase tracking-wider mb-0.5" style="color:var(--c-tetas-embrio)">Mati Embrio</p>
+                            <p class="text-[15px] font-black leading-none" style="color:var(--c-tetas-embrio-dk)">${totalCandling}</p>
+                            <p class="text-[7px] font-bold mt-0.5" style="color:var(--c-tetas-embrio)">${pctGagalCandling}%</p>
                         </div>
                         <div class="py-2.5 px-1 text-center">
                             <p class="text-[7px] font-black uppercase tracking-wider mb-0.5" style="color:#2e7d32">${labelDOX} ✓</p>
                             <p class="text-[15px] font-black leading-none" style="color:#2e7d32">${b.dod}</p>
-                            <p class="text-[7px] font-bold mt-0.5" style="color:#4d6228">${pctDOD}%</p>
+                            <p class="text-[7px] font-bold mt-0.5" style="color:var(--c-tetas-success-dk)">${pctDOD}%</p>
                         </div>
                         <div class="py-2.5 px-1 text-center">
-                            <p class="text-[7px] font-black uppercase tracking-wider mb-0.5" style="color:#b8601e">${labelDOX} Gagal</p>
-                            <p class="text-[15px] font-black leading-none" style="color:#b8601e">${b.dodGagal||0}</p>
-                            <p class="text-[7px] font-bold mt-0.5" style="color:#bc6c25">${pctGagalDOD}%</p>
+                            <p class="text-[7px] font-black uppercase tracking-wider mb-0.5" style="color:var(--c-tetas-embrio-dk)">${labelDOX} Gagal</p>
+                            <p class="text-[15px] font-black leading-none" style="color:var(--c-tetas-embrio-dk)">${b.dodGagal||0}</p>
+                            <p class="text-[7px] font-bold mt-0.5" style="color:var(--c-tetas-embrio)">${pctGagalDOD}%</p>
                         </div>
-                        <div class="py-2.5 px-1 text-center" style="background:#fff8f2">
-                            <p class="text-[7px] font-black uppercase tracking-wider mb-0.5 text-[#bc6c25]">Daya Tetas <span onclick="event.stopPropagation();tetasInfo('daya_tetas')" style="cursor:pointer"><i class="ph-fill ph-info" style="font-size:9px;vertical-align:middle;color:#bc6c25;opacity:0.6"></i></span></p>
-                            <p class="text-[15px] font-black leading-none text-[#bc6c25]">${dayaTetas}%</p>
+                        <div class="py-2.5 px-1 text-center" style="background:var(--c-tetas-highlight-soft)">
+                            <p class="text-[7px] font-black uppercase tracking-wider mb-0.5" style="color:var(--c-tetas-highlight)">Daya Tetas <span onclick="event.stopPropagation();tetasInfo('daya_tetas')" style="cursor:pointer"><i class="ph-fill ph-info" style="font-size:9px;vertical-align:middle;color:var(--c-tetas-highlight);opacity:0.6"></i></span></p>
+                            <p class="text-[15px] font-black leading-none" style="color:var(--c-tetas-highlight)">${dayaTetas}%</p>
                             <p class="text-[7px] font-bold mt-0.5 text-slate-400">${labelDOX}÷Fertil</p>
                         </div>
                     </div>
                 </div>
 
                 ${selisihDOD !== 0 ? `
-                <div class="px-4 py-2 flex items-center gap-2" style="background:${selisihDOD < 0 ? '#fde8e8' : '#fff7e6'};border-bottom:1px solid ${selisihDOD < 0 ? '#f9c5c5' : '#fde9c0'}">
+                <div class="px-4 py-2 flex items-center gap-2" style="background:${selisihDOD < 0 ? '#fde8e8' : 'var(--c-tetas-embrio-soft)'};border-bottom:1px solid ${selisihDOD < 0 ? '#f9c5c5' : 'var(--c-tetas-embrio-border)'}">
                     <span class="text-base">⚠️</span>
-                    <p class="text-[9px] font-bold flex-1 leading-snug" style="color:${selisihDOD < 0 ? '#b42318' : '#8a5a00'}">
+                    <p class="text-[9px] font-bold flex-1 leading-snug" style="color:${selisihDOD < 0 ? '#b42318' : 'var(--c-tetas-embrio-dk)'}">
                         ${selisihDOD < 0
                             ? `Total DOD (${totalDOD}) melebihi Fertil Aktif (${fertilAktif}) sebanyak ${Math.abs(selisihDOD)}.`
                             : `Fertil Aktif (${fertilAktif}) masih ${selisihDOD} butir lebih banyak dari Total DOD (${totalDOD})${b.selesai ? ' — batch selesai, hasil belum lengkap.' : '.'}`
@@ -1529,7 +1563,7 @@
                 </div>` : ''}
 
                 <!-- Update Non Fertil (hasil candling awal) -->
-                <div class="px-4 py-3" style="background:#f7f4ec;border-bottom:1px solid #ede9ff">
+                <div class="px-4 py-3" style="background:#f7f4ec;border-bottom:1px solid var(--c-tetas-border)">
                     <p class="text-[8.5px] font-black uppercase tracking-widest mb-2" style="color:#4a5568">🔍 Candling Awal — Non Fertil</p>
                     <div class="flex gap-2 items-end">
                         <div style="width:88px">
@@ -1550,22 +1584,22 @@
 
                     <!-- Candling log -->
                     <div>
-                        <p class="text-[8.5px] font-black uppercase tracking-widest mb-1" style="color:#bc6c25">🕯️ Mati Embrio (${(b.candling||[]).length}×) — ${totalCandling} butir</p>
+                        <p class="text-[8.5px] font-black uppercase tracking-widest mb-1" style="color:var(--c-tetas-embrio)">🕯️ Mati Embrio (${(b.candling||[]).length}×) — ${totalCandling} butir</p>
                         ${candlingRows || '<p class="text-[9px] text-slate-400 italic">Belum ada catatan mati embrio.</p>'}
                         <div class="flex gap-2 mt-2 items-end">
                             <div class="flex-1">
                                 <p class="text-[8px] font-black text-slate-500 uppercase mb-1">Tanggal</p>
-                                <input type="date" id="cd-tgl-${b.id}" class="w-full border-2 border-[#e9e4d0] p-2 rounded-xl text-xs font-bold outline-none focus:border-[#bc6c25]" value="${new Date().toISOString().split('T')[0]}">
+                                <input type="date" id="cd-tgl-${b.id}" class="w-full border-2 border-[#e9e4d0] p-2 rounded-xl text-xs font-bold outline-none focus:border-[var(--c-tetas-embrio)]" value="${new Date().toISOString().split('T')[0]}">
                             </div>
                             <div style="width:72px">
                                 <p class="text-[8px] font-black text-slate-500 uppercase mb-1">Jml Gagal</p>
-                                <input type="number" id="cd-jml-${b.id}" inputmode="numeric" placeholder="0" class="w-full border-2 border-[#e9e4d0] p-2 rounded-xl text-xs font-black outline-none focus:border-[#bc6c25] text-center">
+                                <input type="number" id="cd-jml-${b.id}" inputmode="numeric" placeholder="0" class="w-full border-2 border-[#e9e4d0] p-2 rounded-xl text-xs font-black outline-none focus:border-[var(--c-tetas-embrio)] text-center">
                             </div>
                             <div class="flex-1">
                                 <p class="text-[8px] font-black text-slate-500 uppercase mb-1">Catatan</p>
-                                <input type="text" id="cd-cat-${b.id}" placeholder="cth: tidak ada urat" class="w-full border-2 border-[#e9e4d0] p-2 rounded-xl text-xs outline-none focus:border-[#bc6c25]">
+                                <input type="text" id="cd-cat-${b.id}" placeholder="cth: tidak ada urat" class="w-full border-2 border-[#e9e4d0] p-2 rounded-xl text-xs outline-none focus:border-[var(--c-tetas-embrio)]">
                             </div>
-                            <button onclick="tambahCandling('${b.id}')" style="background:#bc6c25;color:white;border:none;border-radius:12px;padding:8px 12px;font-size:11px;font-weight:900;cursor:pointer;white-space:nowrap;height:36px">+ Catat</button>
+                            <button onclick="tambahCandling('${b.id}')" style="background:var(--c-tetas-embrio);color:white;border:none;border-radius:12px;padding:8px 12px;font-size:11px;font-weight:900;cursor:pointer;white-space:nowrap;height:36px">+ Catat</button>
                         </div>
                     </div>
 
@@ -1586,19 +1620,19 @@
                     </div>
 
                         <!-- Panduan collapsible -->
-                    <div class="rounded-xl overflow-hidden border border-[#e8c9d0]">
-                        <button onclick="this.nextElementSibling.classList.toggle('hidden');var _ic=this.querySelector('.ph-caret-down,.ph-caret-up');if(_ic){_ic.classList.toggle('ph-caret-down');_ic.classList.toggle('ph-caret-up');}" class="w-full flex items-center justify-between px-3 py-2" style="background:#fdf4f6">
+                    <div class="rounded-xl overflow-hidden border" style="border-color:var(--c-tetas-border)">
+                        <button onclick="this.nextElementSibling.classList.toggle('hidden');var _ic=this.querySelector('.ph-caret-down,.ph-caret-up');if(_ic){_ic.classList.toggle('ph-caret-down');_ic.classList.toggle('ph-caret-up');}" class="w-full flex items-center justify-between px-3 py-2" style="background:var(--c-tetas-soft)">
                             <span class="text-[8px] font-black uppercase tracking-widest flex items-center gap-1" style="color:var(--c-tetas)"><i class="ph-fill ph-info" style="font-size:11px"></i> Panduan Candling ${jenisLabel}</span>
                             <i class="ph ph-caret-down text-xs" style="color:var(--c-tetas)"></i>
                         </button>
-                        <div class="hidden px-3 pb-3 pt-1" style="background:#fdf4f6">
+                        <div class="hidden px-3 pb-3 pt-1" style="background:var(--c-tetas-soft)">
                             <p class="text-[8px] font-bold text-slate-500 leading-snug">${panduanCandling}</p>
                             <p class="text-[8px] text-slate-400 mt-1 leading-snug"><b>Fertil Aktif</b> = Fertil − Mati Embrio &nbsp;·&nbsp; <b>Daya Tetas</b> = ${labelDOX} ÷ Fertil</p>
                         </div>
                     </div>
                     <div class="flex gap-2">
-                        <button onclick="editInfoBatch('${b.id}')" class="flex-1 py-2 text-[9px] font-black rounded-xl border-2 border-[#e8c9d0] transition active:scale-95" style="color:#8b3a4a;background:#fbeef1">✏️ Edit Info</button>
-                        <button onclick="toggleSelesaiBatch('${b.id}')" class="flex-1 py-2 text-[9px] font-black rounded-xl border-2 transition active:scale-95" style="${b.selesai ? 'border-color:#e8c9d0;color:#8b3a4a;background:#fbeef1' : 'border-color:#bbf7d0;color:#2e7d32;background:#f0fdf4'}">${b.selesai ? '↩ Buka Kembali' : '✅ Tandai Selesai'}</button>
+                        <button onclick="editInfoBatch('${b.id}')" class="flex-1 py-2 text-[9px] font-black rounded-xl border-2 transition active:scale-95" style="border-color:var(--c-tetas-border);color:var(--c-tetas);background:var(--c-tetas-soft)">✏️ Edit Info</button>
+                        <button onclick="toggleSelesaiBatch('${b.id}')" class="flex-1 py-2 text-[9px] font-black rounded-xl border-2 transition active:scale-95" style="${b.selesai ? 'border-color:var(--c-tetas-border);color:var(--c-tetas);background:var(--c-tetas-soft)' : 'border-color:#bbf7d0;color:#2e7d32;background:#f0fdf4'}">${b.selesai ? '↩ Buka Kembali' : '✅ Tandai Selesai'}</button>
                     </div>
                 </div>
             </div>`;
@@ -1647,7 +1681,7 @@
             if(!b) return;
             b.selesai = !b.selesai;
             simpanDB(); renderTabelTetas(); renderSummaryTetas();
-            msg(b.selesai ? 'Batch ditandai selesai ✓' : 'Batch dibuka kembali', 'bg-[#8b3a4a]');
+            msg(b.selesai ? 'Batch ditandai selesai ✓' : 'Batch dibuka kembali', 'bg-[#7a4a2e]');
         }
 
         function editInfoBatch(batchId) {
@@ -1659,12 +1693,12 @@
                     <div>
                         <label class="input-label">Jenis Unggas</label>
                         <div class="grid grid-cols-2 gap-2">
-                            <button type="button" id="eib-unggas-bebek" onclick="pilihUnggasTetas('bebek','eib')" class="py-2.5 rounded-2xl border-2 font-black text-[10px] transition" style="${(b.jenisUnggas||'bebek')==='bebek'?'border-color:#8b3a4a;background:#fbeef1;color:#8b3a4a':'border-color:#e9e4d0;background:white;color:#888'}">🦆 Bebek <span class="font-normal opacity-70">(28 hari)</span></button>
-                            <button type="button" id="eib-unggas-ayam" onclick="pilihUnggasTetas('ayam','eib')" class="py-2.5 rounded-2xl border-2 font-black text-[10px] transition" style="${(b.jenisUnggas||'bebek')==='ayam'?'border-color:#8b3a4a;background:#fbeef1;color:#8b3a4a':'border-color:#e9e4d0;background:white;color:#888'}">🐔 Ayam <span class="font-normal opacity-70">(21 hari)</span></button>
+                            <button type="button" id="eib-unggas-bebek" onclick="pilihUnggasTetas('bebek','eib')" class="py-2.5 rounded-2xl border-2 font-black text-[10px] transition" style="${(b.jenisUnggas||'bebek')==='bebek'?'border-color:var(--c-tetas);background:var(--c-tetas-soft);color:var(--c-tetas)':'border-color:#e9e4d0;background:white;color:#888'}">🦆 Bebek <span class="font-normal opacity-70">(28 hari)</span></button>
+                            <button type="button" id="eib-unggas-ayam" onclick="pilihUnggasTetas('ayam','eib')" class="py-2.5 rounded-2xl border-2 font-black text-[10px] transition" style="${(b.jenisUnggas||'bebek')==='ayam'?'border-color:var(--c-tetas);background:var(--c-tetas-soft);color:var(--c-tetas)':'border-color:#e9e4d0;background:white;color:#888'}">🐔 Ayam <span class="font-normal opacity-70">(21 hari)</span></button>
                         </div>
                     </div>
                     <div><label class="input-label">Nama / Label Batch</label>
-                        <input type="text" id="eib-nama" value="${escHtml(b.nama||'')}" placeholder="Opsional..." class="w-full border-2 border-[#e9e4d0] p-3 rounded-2xl outline-none focus:border-[#8b3a4a]"></div>
+                        <input type="text" id="eib-nama" value="${escHtml(b.nama||'')}" placeholder="Opsional..." class="w-full border-2 border-[#e9e4d0] p-3 rounded-2xl outline-none focus:border-[var(--c-tetas)]"></div>
                     <div class="grid grid-cols-2 gap-3">
                         <div><label class="input-label">Tanggal Masuk</label>
                             <input type="date" id="eib-tgl" value="${b.tgl}" class="w-full border-2 border-[#e9e4d0] p-3 rounded-2xl outline-none font-bold"></div>
@@ -1679,7 +1713,7 @@
                     </div>
                     <p class="text-[8px] text-slate-500 -mt-1 leading-snug">💡 Fertil dihitung otomatis = Jumlah Telur − Non Fertil saat disimpan.</p>
                     <div><label class="input-label">Catatan</label>
-                        <input type="text" id="eib-catatan" value="${escHtml(b.catatan||'')}" class="w-full border-2 border-[#e9e4d0] p-3 rounded-2xl outline-none focus:border-[#8b3a4a]"></div>
+                        <input type="text" id="eib-catatan" value="${escHtml(b.catatan||'')}" class="w-full border-2 border-[#e9e4d0] p-3 rounded-2xl outline-none focus:border-[var(--c-tetas)]"></div>
                     <button onclick="prosesEditInfoBatch('${batchId}')" class="w-full py-4 font-black rounded-2xl uppercase tracking-widest shadow-lg text-white active:scale-95 transition" style="background:var(--c-tetas)">Simpan</button>
                     <button onclick="closeModal();hapusBatch('${batchId}')" class="w-full py-3 bg-white border-2 border-red-200 text-red-500 font-black rounded-2xl uppercase tracking-widest text-[10px] flex items-center justify-center gap-2"><i class="ph ph-trash"></i> Hapus Batch Ini</button>
                 </div>`;
@@ -1697,7 +1731,7 @@
             b.fertil = Math.max(0, b.jmlTelur - b.nonFertil);
             b.catatan = document.getElementById('eib-catatan').value.trim();
             simpanDB(); renderTabelTetas(); renderSummaryTetas(); closeModal();
-            msg('Info batch diperbarui ✓', 'bg-[#8b3a4a]');
+            msg('Info batch diperbarui ✓', 'bg-[#7a4a2e]');
         }
 
         // Catat hasil candling awal: Non Fertil diisi manual, Fertil = Telur Masuk - Non Fertil
@@ -1768,7 +1802,7 @@
                 },
                 daya_tetas: {
                     title: '📊 Apa itu Daya Tetas?',
-                    color: '#bc6c25',
+                    color: '#a8632a',
                     body: `
                         <p class="text-[11px] leading-relaxed mb-2"><b>Daya Tetas</b> = persentase telur fertil yang <b>berhasil menetas</b> menjadi DOC/DOD hidup.</p>
                         <p class="text-[11px] leading-relaxed mb-2"><b>Rumus:</b> DOD Berhasil ÷ Telur Fertil × 100%</p>
@@ -1825,7 +1859,7 @@
 
         // ---- EXPORT PDF KHUSUS TAB TETAS (semua batch) ----
         function exportPDFTetas() {
-            if(dbTetas.length === 0) { msg('Belum ada data batch penetasan!', 'bg-[#8b3a4a]'); return; }
+            if(dbTetas.length === 0) { msg('Belum ada data batch penetasan!', 'bg-[#7a4a2e]'); return; }
             const _d = new Date();
             const _dd = String(_d.getDate()).padStart(2,'0');
             const _mm = String(_d.getMonth()+1).padStart(2,'0');
@@ -1868,19 +1902,19 @@
                 * { box-sizing:border-box;margin:0;padding:0; }
                 body { font-family:'Plus Jakarta Sans',Arial,sans-serif;background:white;color:#1e2d12;font-size:11px; }
                 .page { max-width:900px;margin:0 auto;padding:0 24px 40px; }
-                .header { background:linear-gradient(135deg,#5c1e2e 0%,#8b3a4a 100%);color:white;padding:24px;margin-bottom:20px; }
+                .header { background:linear-gradient(135deg,#3d2817 0%,#7a4a2e 100%);color:white;padding:24px;margin-bottom:20px; }
                 .header h1 { font-size:20px;font-weight:900;letter-spacing:-0.02em; }
                 .header p { font-size:8px;opacity:0.6;margin-top:4px;text-transform:uppercase;letter-spacing:0.15em; }
                 .summary-grid { display:grid;grid-template-columns:repeat(5,1fr);gap:8px;margin-bottom:16px; }
-                .summary-box { background:#fdf4f6;border:1px solid #e8c9d0;border-radius:10px;padding:10px;text-align:center; }
-                .summary-box .lbl { font-size:7.5px;font-weight:800;text-transform:uppercase;color:#8b3a4a;margin-bottom:4px; }
+                .summary-box { background:#f4ece4;border:1px solid #e6d6c7;border-radius:10px;padding:10px;text-align:center; }
+                .summary-box .lbl { font-size:7.5px;font-weight:800;text-transform:uppercase;color:#7a4a2e;margin-bottom:4px; }
                 .summary-box .val { font-size:14px;font-weight:900;color:#3d348b; }
-                .section-title { background:#fbeef1;border-left:4px solid #8b3a4a;padding:7px 12px;border-radius:0 8px 8px 0;font-size:8px;font-weight:900;text-transform:uppercase;letter-spacing:0.1em;color:#8b3a4a;margin:16px 0 8px; }
+                .section-title { background:#f4ece4;border-left:4px solid #7a4a2e;padding:7px 12px;border-radius:0 8px 8px 0;font-size:8px;font-weight:900;text-transform:uppercase;letter-spacing:0.1em;color:#7a4a2e;margin:16px 0 8px; }
                 table { width:100%;border-collapse:collapse;margin-bottom:4px; }
-                th { background:#8b3a4a;color:white;padding:6px 8px;font-size:8px;font-weight:800;text-transform:uppercase;letter-spacing:0.06em;text-align:left; }
+                th { background:#7a4a2e;color:white;padding:6px 8px;font-size:8px;font-weight:800;text-transform:uppercase;letter-spacing:0.06em;text-align:left; }
                 td { padding:5px 8px;border-bottom:1px solid #f5e8ec;vertical-align:top; }
                 tr:nth-child(even) td { background:#fdf8fa; }
-                .footer { margin-top:24px;padding-top:12px;border-top:1px solid #e8c9d0;font-size:8px;color:#8b3a4a;text-align:center;opacity:0.6; }
+                .footer { margin-top:24px;padding-top:12px;border-top:1px solid #e6d6c7;font-size:8px;color:#7a4a2e;text-align:center;opacity:0.6; }
                 @media print { body{-webkit-print-color-adjust:exact;print-color-adjust:exact;} .no-print{display:none;} }
             </style></head><body>
             <div class="header">
@@ -1893,7 +1927,7 @@
                     <div class="summary-box"><div class="lbl">Telur Masuk</div><div class="val">${totalMasuk}</div></div>
                     <div class="summary-box"><div class="lbl">Fertil Aktif</div><div class="val" style="color:#4d6228">${totalFA}</div></div>
                     <div class="summary-box"><div class="lbl">DOC/DOD ✓</div><div class="val" style="color:#2e7d32">${totalDod}</div></div>
-                    <div class="summary-box"><div class="lbl">Daya Tetas</div><div class="val" style="color:#bc6c25">${rateGlobal}%</div></div>
+                    <div class="summary-box"><div class="lbl">Daya Tetas</div><div class="val" style="color:#a8632a">${rateGlobal}%</div></div>
                 </div>
                 <div class="section-title">Detail Semua Batch Penetasan</div>
                 <table><thead><tr>
@@ -1908,7 +1942,7 @@
             </body></html>`;
             const w = window.open('','_blank','width=1000,height=700');
             if(w) { w.document.write(html); w.document.close(); setTimeout(()=>w.print(),600); }
-            else msg('Pop-up diblokir — izinkan pop-up untuk halaman ini.', 'bg-[#bc6c25]');
+            else msg('Pop-up diblokir — izinkan pop-up untuk halaman ini.', 'bg-[#a8632a]');
         }
 
         // ---- EXPORT PDF SATU BATCH ----
@@ -1925,7 +1959,7 @@
             const namaLabel = b.nama || formatTgl(b.tgl);
             const candlingHTML = (b.candling||[]).length > 0
                 ? `<table><thead><tr><th>#</th><th>Tanggal</th><th style="text-align:center">Jml Gagal</th><th>Catatan</th></tr></thead><tbody>
-                    ${(b.candling||[]).map((c,i)=>`<tr><td style="text-align:center;font-weight:900">${i+1}</td><td>${c.tgl}</td><td style="text-align:center;font-weight:900;color:#bc6c25">${c.jumlah}</td><td style="color:#5a7840;font-style:italic">${escHtml(c.catatan||'-')}</td></tr>`).join('')}
+                    ${(b.candling||[]).map((c,i)=>`<tr><td style="text-align:center;font-weight:900">${i+1}</td><td>${c.tgl}</td><td style="text-align:center;font-weight:900;color:#a8632a">${c.jumlah}</td><td style="color:#5a7840;font-style:italic">${escHtml(c.catatan||'-')}</td></tr>`).join('')}
                     </tbody></table>`
                 : '<p style="font-size:9px;color:#888;font-style:italic">Tidak ada catatan mati embrio.</p>';
             const html = `<!DOCTYPE html><html><head><meta charset="UTF-8"><title>Batch Penetasan - ${escHtml(namaLabel)}</title>
@@ -1934,19 +1968,19 @@
                 * { box-sizing:border-box;margin:0;padding:0; }
                 body { font-family:'Plus Jakarta Sans',Arial,sans-serif;background:white;color:#1e2d12;font-size:11px; }
                 .page { max-width:700px;margin:0 auto;padding:0 24px 40px; }
-                .header { background:linear-gradient(135deg,#5c1e2e 0%,#8b3a4a 100%);color:white;padding:20px 24px;margin-bottom:18px; }
+                .header { background:linear-gradient(135deg,#3d2817 0%,#7a4a2e 100%);color:white;padding:20px 24px;margin-bottom:18px; }
                 .header h1 { font-size:17px;font-weight:900; }
                 .header p { font-size:8px;opacity:0.6;text-transform:uppercase;letter-spacing:0.12em;margin-top:3px; }
                 .stat-grid { display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-bottom:14px; }
-                .stat-box { background:#fdf4f6;border:1px solid #e8c9d0;border-radius:10px;padding:10px;text-align:center; }
-                .stat-box .lbl { font-size:7.5px;font-weight:800;text-transform:uppercase;color:#8b3a4a;margin-bottom:3px; }
+                .stat-box { background:#f4ece4;border:1px solid #e6d6c7;border-radius:10px;padding:10px;text-align:center; }
+                .stat-box .lbl { font-size:7.5px;font-weight:800;text-transform:uppercase;color:#7a4a2e;margin-bottom:3px; }
                 .stat-box .val { font-size:16px;font-weight:900;color:#3d348b; }
                 .stat-box .sub { font-size:7.5px;color:#888;margin-top:1px; }
-                .section-title { background:#fbeef1;border-left:4px solid #8b3a4a;padding:6px 10px;border-radius:0 8px 8px 0;font-size:8px;font-weight:900;text-transform:uppercase;color:#8b3a4a;margin:14px 0 7px; }
+                .section-title { background:#f4ece4;border-left:4px solid #7a4a2e;padding:6px 10px;border-radius:0 8px 8px 0;font-size:8px;font-weight:900;text-transform:uppercase;color:#7a4a2e;margin:14px 0 7px; }
                 table { width:100%;border-collapse:collapse; }
-                th { background:#8b3a4a;color:white;padding:5px 8px;font-size:8px;font-weight:800;text-transform:uppercase;text-align:left; }
+                th { background:#7a4a2e;color:white;padding:5px 8px;font-size:8px;font-weight:800;text-transform:uppercase;text-align:left; }
                 td { padding:5px 8px;border-bottom:1px solid #f5e8ec; }
-                .footer { margin-top:20px;padding-top:10px;border-top:1px solid #e8c9d0;font-size:8px;color:#8b3a4a;text-align:center;opacity:0.6; }
+                .footer { margin-top:20px;padding-top:10px;border-top:1px solid #e6d6c7;font-size:8px;color:#7a4a2e;text-align:center;opacity:0.6; }
                 @media print { body{-webkit-print-color-adjust:exact;print-color-adjust:exact;} .no-print{display:none;} }
             </style></head><body>
             <div class="header">
@@ -1958,11 +1992,11 @@
                     <div class="stat-box"><div class="lbl">Telur Masuk</div><div class="val">${b.jmlTelur}</div><div class="sub">butir</div></div>
                     <div class="stat-box"><div class="lbl">Fertil</div><div class="val" style="color:#4d6228">${b.fertil}</div><div class="sub">${fertRate}%</div></div>
                     <div class="stat-box"><div class="lbl">Fertil Aktif</div><div class="val" style="color:#4d6228">${fa}</div><div class="sub">setelah candling</div></div>
-                    <div class="stat-box"><div class="lbl">Daya Tetas</div><div class="val" style="color:#bc6c25">${dt}</div><div class="sub">${b.jenisUnggas==='ayam'?'DOC':'DOD'}÷Fertil</div></div>
+                    <div class="stat-box"><div class="lbl">Daya Tetas</div><div class="val" style="color:#a8632a">${dt}</div><div class="sub">${b.jenisUnggas==='ayam'?'DOC':'DOD'}÷Fertil</div></div>
                     <div class="stat-box"><div class="lbl">Non Fertil</div><div class="val" style="color:#4a5568">${b.nonFertil||0}</div><div class="sub">${nonFertRate}%</div></div>
-                    <div class="stat-box"><div class="lbl">Mati Embrio</div><div class="val" style="color:#bc6c25">${tc}</div><div class="sub">${(b.candling||[]).length}× sesi</div></div>
+                    <div class="stat-box"><div class="lbl">Mati Embrio</div><div class="val" style="color:#a8632a">${tc}</div><div class="sub">${(b.candling||[]).length}× sesi</div></div>
                     <div class="stat-box"><div class="lbl">${b.jenisUnggas==='ayam'?'DOC':'DOD'} Berhasil</div><div class="val" style="color:#2e7d32">${b.dod}</div><div class="sub">${dodRate}% total</div></div>
-                    <div class="stat-box"><div class="lbl">${b.jenisUnggas==='ayam'?'DOC':'DOD'} Gagal</div><div class="val" style="color:#b8601e">${b.dodGagal||0}</div><div class="sub">dari fertil aktif</div></div>
+                    <div class="stat-box"><div class="lbl">${b.jenisUnggas==='ayam'?'DOC':'DOD'} Gagal</div><div class="val" style="color:#8a5722">${b.dodGagal||0}</div><div class="sub">dari fertil aktif</div></div>
                 </div>
                 ${b.catatan ? `<div style="background:#f9f7ff;border:1px solid #ede9ff;border-radius:10px;padding:10px 12px;margin-bottom:12px;font-size:9px;color:#5a7840;font-style:italic">📝 ${escHtml(b.catatan)}</div>` : ''}
                 <div class="section-title">Log Mati Embrio</div>
@@ -1978,7 +2012,7 @@
         // ---- EXPORT EXCEL KHUSUS TAB TETAS ----
         function exportExcelTetas() {
             if(typeof XLSX === 'undefined') { msg('Library Excel belum loaded. Coba online dulu sekali.', 'bg-[#bc6c25]'); return; }
-            if(!dbTetas || dbTetas.length === 0) { msg('Belum ada data batch penetasan!', 'bg-[#8b3a4a]'); return; }
+            if(!dbTetas || dbTetas.length === 0) { msg('Belum ada data batch penetasan!', 'bg-[#7a4a2e]'); return; }
             try {
                 const wb = XLSX.utils.book_new();
                 wb.Props = { Title: 'Laporan Penetasan KembaliTernak', Subject: 'Data Penetasan', Author: 'KembaliTernak App' };
@@ -3389,29 +3423,29 @@
                         +'<td style="padding:5px 8px;font-size:9px">'+b.tgl+'</td>'
                         +'<td style="padding:5px 8px;font-size:9px;text-align:center;font-weight:900">'+b.jmlTelur+'</td>'
                         +'<td style="padding:5px 8px;font-size:9px;text-align:center;color:#4d6228;font-weight:900">'+b.fertil+'</td>'
-                        +'<td style="padding:5px 8px;font-size:9px;text-align:center;color:#bc6c25">'+tc+' ('+(b.candling||[]).length+'x)</td>'
+                        +'<td style="padding:5px 8px;font-size:9px;text-align:center;color:#a8632a">'+tc+' ('+(b.candling||[]).length+'x)</td>'
                         +'<td style="padding:5px 8px;font-size:9px;text-align:center;color:#4d6228;font-weight:900">'+fa+'</td>'
                         +'<td style="padding:5px 8px;font-size:9px;text-align:center;color:#2e7d32;font-weight:900">'+b.dod+'</td>'
-                        +'<td style="padding:5px 8px;font-size:9px;text-align:center;color:#b8601e">'+(b.dodGagal||0)+'</td>'
-                        +'<td style="padding:5px 8px;font-size:9px;text-align:center;color:#bc6c25;font-weight:900">'+dt+'</td>'
+                        +'<td style="padding:5px 8px;font-size:9px;text-align:center;color:#8a5722">'+(b.dodGagal||0)+'</td>'
+                        +'<td style="padding:5px 8px;font-size:9px;text-align:center;color:#a8632a;font-weight:900">'+dt+'</td>'
                         +'<td style="padding:5px 8px;font-size:9px;text-align:center">'+(b.selesai?'Selesai':'Berjalan')+'</td>'
                         +'</tr>';
                 }).join('');
-                return '<div class="section-title" style="background:#fbeef1;color:#8b3a4a">Penetasan</div>'
+                return '<div class="section-title" style="background:#f4ece4;color:#7a4a2e">Penetasan</div>'
                     +'<div style="display:flex;gap:8px;margin-bottom:10px;flex-wrap:wrap">'
-                    +'<div style="padding:6px 12px;background:#fbeef1;border-radius:8px;font-size:8px;font-weight:900;color:#8b3a4a">'+dbTetas.length+' batch</div>'
-                    +'<div style="padding:6px 12px;background:#fbeef1;border-radius:8px;font-size:8px;font-weight:900;color:#1a6b6b">🦆 Bebek: '+bebekBatchT+' batch</div>'
-                    +'<div style="padding:6px 12px;background:#fff8ee;border-radius:8px;font-size:8px;font-weight:900;color:#a05c0a">🐔 Ayam: '+ayamBatchT+' batch</div>'
-                    +'<div style="padding:6px 12px;background:#fbeef1;border-radius:8px;font-size:8px;font-weight:900;color:#4d6228">Fertil: '+totalFertilT+'</div>'
-                    +'<div style="padding:6px 12px;background:#fbeef1;border-radius:8px;font-size:8px;font-weight:900;color:#2e7d32">DOC/DOD: '+totalDodT+'</div>'
-                    +'<div style="padding:6px 12px;background:#fbeef1;border-radius:8px;font-size:8px;font-weight:900;color:#bc6c25">Daya Tetas: '+rateT+'</div>'
+                    +'<div style="padding:6px 12px;background:#f4ece4;border-radius:8px;font-size:8px;font-weight:900;color:#7a4a2e">'+dbTetas.length+' batch</div>'
+                    +'<div style="padding:6px 12px;background:#f4ece4;border-radius:8px;font-size:8px;font-weight:900;color:#1a6b6b">🦆 Bebek: '+bebekBatchT+' batch</div>'
+                    +'<div style="padding:6px 12px;background:#f8eede;border-radius:8px;font-size:8px;font-weight:900;color:#b07d3a">🐔 Ayam: '+ayamBatchT+' batch</div>'
+                    +'<div style="padding:6px 12px;background:#f4ece4;border-radius:8px;font-size:8px;font-weight:900;color:#4d6228">Fertil: '+totalFertilT+'</div>'
+                    +'<div style="padding:6px 12px;background:#f4ece4;border-radius:8px;font-size:8px;font-weight:900;color:#2e7d32">DOC/DOD: '+totalDodT+'</div>'
+                    +'<div style="padding:6px 12px;background:#f4ece4;border-radius:8px;font-size:8px;font-weight:900;color:#a8632a">Daya Tetas: '+rateT+'</div>'
                     +'</div>'
                     +'<table><thead><tr>'
-                    +'<th style="background:#8b3a4a">Nama/Label</th><th style="background:#8b3a4a">Jenis</th><th style="background:#8b3a4a">Tgl Masuk</th>'
-                    +'<th style="background:#8b3a4a;text-align:center">Masuk</th><th style="background:#8b3a4a;text-align:center">Fertil</th>'
-                    +'<th style="background:#8b3a4a;text-align:center">Mati Embrio</th><th style="background:#8b3a4a;text-align:center">Fertil Aktif</th>'
-                    +'<th style="background:#8b3a4a;text-align:center">DOC/DOD ✓</th><th style="background:#8b3a4a;text-align:center">DOC/DOD ✗</th><th style="background:#8b3a4a;text-align:center">Daya Tetas</th>'
-                    +'<th style="background:#8b3a4a;text-align:center">Status</th>'
+                    +'<th style="background:#7a4a2e">Nama/Label</th><th style="background:#7a4a2e">Jenis</th><th style="background:#7a4a2e">Tgl Masuk</th>'
+                    +'<th style="background:#7a4a2e;text-align:center">Masuk</th><th style="background:#7a4a2e;text-align:center">Fertil</th>'
+                    +'<th style="background:#7a4a2e;text-align:center">Mati Embrio</th><th style="background:#7a4a2e;text-align:center">Fertil Aktif</th>'
+                    +'<th style="background:#7a4a2e;text-align:center">DOC/DOD ✓</th><th style="background:#7a4a2e;text-align:center">DOC/DOD ✗</th><th style="background:#7a4a2e;text-align:center">Daya Tetas</th>'
+                    +'<th style="background:#7a4a2e;text-align:center">Status</th>'
                     +'</tr></thead><tbody>'+batchRowsT+'</tbody></table>';
             })() : ''}
 
@@ -5158,7 +5192,7 @@
                         <div class="text-[8px] text-[#4a3728] flex items-center gap-1.5"><i class="ph-fill ph-calendar-check text-[#4d6228]"></i> Siklus &amp; Agenda</div>
                         <div class="text-[8px] text-[#4a3728] flex items-center gap-1.5"><i class="ph-fill ph-hand-coins text-[#a05c0a]"></i> Keuangan B/C</div>
                         <div class="text-[8px] text-[#4a3728] flex items-center gap-1.5"><i class="ph-fill ph-bird text-[#1a6b6b]"></i> Manajemen Ternak &amp; LPH</div>
-                        <div class="text-[8px] text-[#4a3728] flex items-center gap-1.5"><i class="ph-fill ph-egg text-[#8b3a4a]"></i> Penetasan (Tetas) &amp; Batch</div>
+                        <div class="text-[8px] text-[#4a3728] flex items-center gap-1.5"><i class="ph-fill ph-egg text-[#7a4a2e]"></i> Penetasan (Tetas) &amp; Batch</div>
                         <div class="text-[8px] text-[#4a3728] flex items-center gap-1.5"><i class="ph-fill ph-leaf text-[#2e7d32]"></i> Manajemen Tanaman</div>
                         <div class="text-[8px] text-[#4a3728] flex items-center gap-1.5"><i class="ph-fill ph-scales text-[#8d3b1a]"></i> Kalkulator Nutrisi</div>
                         <div class="text-[8px] text-[#4a3728] flex items-center gap-1.5"><i class="ph-fill ph-magic-wand text-[#8d3b1a]"></i> Auto Rekomendasi</div>
@@ -5242,7 +5276,7 @@
                             </div>
                             <div class="flex items-center justify-between bg-[#f0fbfb] border border-[#c8e0d8] rounded-xl px-3 py-2">
                                 <div class="flex items-center gap-1.5">
-                                    <i class="ph-fill ph-egg text-[#8b3a4a] text-sm"></i>
+                                    <i class="ph-fill ph-egg text-[#7a4a2e] text-sm"></i>
                                     <span class="text-[8px] font-bold text-[#4a3728]">Tetas (batch, candling, hasil)</span>
                                 </div>
                                 <span class="text-[8px] font-black text-[#1a6b6b]">✅ Penuh Offline</span>
@@ -5336,17 +5370,17 @@
 
                         <!-- Subsection: Penetasan (Tetas) -->
                         <div class="space-y-1.5">
-                            <p class="text-[8px] font-black uppercase tracking-widest text-[#8b3a4a] flex items-center gap-1.5"><i class="ph-fill ph-egg"></i> Penetasan (Tetas)</p>
+                            <p class="text-[8px] font-black uppercase tracking-widest text-[#7a4a2e] flex items-center gap-1.5"><i class="ph-fill ph-egg"></i> Penetasan (Tetas)</p>
                             <div class="flex items-start gap-2">
-                                <span class="text-[8px] font-black text-[#8b3a4a] shrink-0 mt-0.5">🥚</span>
+                                <span class="text-[8px] font-black text-[#7a4a2e] shrink-0 mt-0.5">🥚</span>
                                 <p class="text-[8px] text-[#4a3728]"><span class="font-black">Fertilitas (%):</span> Telur Fertil ÷ Telur Masuk × 100. Persentase telur yang dibuahi, diketahui lewat candling awal (±hari ke-7).</p>
                             </div>
                             <div class="flex items-start gap-2">
-                                <span class="text-[8px] font-black text-[#8b3a4a] shrink-0 mt-0.5">🐣</span>
+                                <span class="text-[8px] font-black text-[#7a4a2e] shrink-0 mt-0.5">🐣</span>
                                 <p class="text-[8px] text-[#4a3728]"><span class="font-black">Fertil Aktif (butir):</span> Fertil − Total Mati Embrio (lanjutan). Sisa telur fertil yang masih berpotensi menetas.</p>
                             </div>
                             <div class="flex items-start gap-2">
-                                <span class="text-[8px] font-black text-[#8b3a4a] shrink-0 mt-0.5">📊</span>
+                                <span class="text-[8px] font-black text-[#7a4a2e] shrink-0 mt-0.5">📊</span>
                                 <p class="text-[8px] text-[#4a3728]"><span class="font-black">Daya Tetas (%):</span> DOD Berhasil ÷ Telur Fertil × 100. Ukuran utama keberhasilan penetasan (mesin, suhu/kelembapan, kualitas telur). Nilai normal 70–85%.</p>
                             </div>
                             <div class="border-t border-slate-200 pt-1.5 mt-1">
