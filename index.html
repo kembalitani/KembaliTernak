@@ -3374,18 +3374,25 @@
                 const totalFAT = Math.max(0,totalFertilT-totalGagalCT);
                 const rateT = totalFertilT>0?Math.round((totalDodT/totalFertilT)*100)+' %':'-';
                 const sortedT = [...dbTetas].sort((a,b)=>parseDateLocal(b.tgl)-parseDateLocal(a.tgl));
+                const bebekBatchT = dbTetas.filter(b=>(b.jenisUnggas||'bebek')==='bebek').length;
+                const ayamBatchT  = dbTetas.filter(b=>(b.jenisUnggas||'bebek')==='ayam').length;
                 const batchRowsT = sortedT.map(b=>{
                     const tc=(b.candling||[]).reduce((s,c)=>s+(c.jumlah||0),0);
                     const fa=Math.max(0,(b.fertil||0)-tc);
+                    const isBebek=(b.jenisUnggas||'bebek')==='bebek';
+                    const jenisLabelT=isBebek?'🦆 Bebek':'🐔 Ayam';
+                    const docLabel=isBebek?'DOD':'DOC';
                     const dt=(b.fertil||0)>0?Math.round((b.dod/(b.fertil||1))*100)+' %':'-';
                     return '<tr>'
                         +'<td style="padding:5px 8px;font-size:9px;font-weight:800;color:#3d348b">'+escHtml(b.nama||formatTgl(b.tgl))+'</td>'
+                        +'<td style="padding:5px 8px;font-size:9px;font-weight:700">'+jenisLabelT+'</td>'
                         +'<td style="padding:5px 8px;font-size:9px">'+b.tgl+'</td>'
                         +'<td style="padding:5px 8px;font-size:9px;text-align:center;font-weight:900">'+b.jmlTelur+'</td>'
                         +'<td style="padding:5px 8px;font-size:9px;text-align:center;color:#4d6228;font-weight:900">'+b.fertil+'</td>'
                         +'<td style="padding:5px 8px;font-size:9px;text-align:center;color:#bc6c25">'+tc+' ('+(b.candling||[]).length+'x)</td>'
                         +'<td style="padding:5px 8px;font-size:9px;text-align:center;color:#4d6228;font-weight:900">'+fa+'</td>'
                         +'<td style="padding:5px 8px;font-size:9px;text-align:center;color:#2e7d32;font-weight:900">'+b.dod+'</td>'
+                        +'<td style="padding:5px 8px;font-size:9px;text-align:center;color:#b8601e">'+(b.dodGagal||0)+'</td>'
                         +'<td style="padding:5px 8px;font-size:9px;text-align:center;color:#bc6c25;font-weight:900">'+dt+'</td>'
                         +'<td style="padding:5px 8px;font-size:9px;text-align:center">'+(b.selesai?'Selesai':'Berjalan')+'</td>'
                         +'</tr>';
@@ -3393,15 +3400,17 @@
                 return '<div class="section-title" style="background:#fbeef1;color:#8b3a4a">Penetasan</div>'
                     +'<div style="display:flex;gap:8px;margin-bottom:10px;flex-wrap:wrap">'
                     +'<div style="padding:6px 12px;background:#fbeef1;border-radius:8px;font-size:8px;font-weight:900;color:#8b3a4a">'+dbTetas.length+' batch</div>'
+                    +'<div style="padding:6px 12px;background:#fbeef1;border-radius:8px;font-size:8px;font-weight:900;color:#1a6b6b">🦆 Bebek: '+bebekBatchT+' batch</div>'
+                    +'<div style="padding:6px 12px;background:#fff8ee;border-radius:8px;font-size:8px;font-weight:900;color:#a05c0a">🐔 Ayam: '+ayamBatchT+' batch</div>'
                     +'<div style="padding:6px 12px;background:#fbeef1;border-radius:8px;font-size:8px;font-weight:900;color:#4d6228">Fertil: '+totalFertilT+'</div>'
-                    +'<div style="padding:6px 12px;background:#fbeef1;border-radius:8px;font-size:8px;font-weight:900;color:#2e7d32">DOD: '+totalDodT+'</div>'
+                    +'<div style="padding:6px 12px;background:#fbeef1;border-radius:8px;font-size:8px;font-weight:900;color:#2e7d32">DOC/DOD: '+totalDodT+'</div>'
                     +'<div style="padding:6px 12px;background:#fbeef1;border-radius:8px;font-size:8px;font-weight:900;color:#bc6c25">Daya Tetas: '+rateT+'</div>'
                     +'</div>'
                     +'<table><thead><tr>'
-                    +'<th style="background:#8b3a4a">Nama/Label</th><th style="background:#8b3a4a">Tgl Masuk</th>'
+                    +'<th style="background:#8b3a4a">Nama/Label</th><th style="background:#8b3a4a">Jenis</th><th style="background:#8b3a4a">Tgl Masuk</th>'
                     +'<th style="background:#8b3a4a;text-align:center">Masuk</th><th style="background:#8b3a4a;text-align:center">Fertil</th>'
                     +'<th style="background:#8b3a4a;text-align:center">Mati Embrio</th><th style="background:#8b3a4a;text-align:center">Fertil Aktif</th>'
-                    +'<th style="background:#8b3a4a;text-align:center">DOD</th><th style="background:#8b3a4a;text-align:center">Daya Tetas</th>'
+                    +'<th style="background:#8b3a4a;text-align:center">DOC/DOD ✓</th><th style="background:#8b3a4a;text-align:center">DOC/DOD ✗</th><th style="background:#8b3a4a;text-align:center">Daya Tetas</th>'
                     +'<th style="background:#8b3a4a;text-align:center">Status</th>'
                     +'</tr></thead><tbody>'+batchRowsT+'</tbody></table>';
             })() : ''}
