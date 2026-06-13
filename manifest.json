@@ -2,7 +2,7 @@
   "name": "KembaliTernak",
   "short_name": "KembaliTernak",
   "description": "Ternak Cerdas, Panen Berlimpah — Manajemen ternak, keuangan, nutrisi, tetas & tanaman offline-first.",
-  "start_url": "./index.html",
+  "start_url": "/",
   "scope": "./",
   "display": "standalone",
   "orientation": "portrait-primary",
