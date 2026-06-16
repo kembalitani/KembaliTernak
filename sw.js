@@ -1,0 +1,111 @@
+// KembaliTernak Service Worker v9
+// Cache lokal + CDN libraries untuk full offline support
+// v8: Bump version agar cache lama (v7) dibersihkan dan index.html terbaru ter-cache
+// v7: Hapus skipWaiting() dari install — banner update hanya muncul saat ada update beneran
+
+const CACHE_NAME = 'kembali-ternak-v9';
+
+const LOCAL_FILES = [
+    './',
+    './index.html',
+    './manifest.json',
+    './icons/icon-192x192.png',
+    './icons/icon-512x512.png',
+    './icons/icon-384x384.png',
+];
+
+const CDN_FILES = [
+    'https://cdn.tailwindcss.com',
+    'https://cdn.jsdelivr.net/npm/chart.js',
+    'https://unpkg.com/@phosphor-icons/web',
+    'https://cdn.jsdelivr.net/npm/xlsx-js-style@1.2.0/dist/xlsx.bundle.js',
+    'https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js',
+    'https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.8.2/jspdf.plugin.autotable.min.js',
+    'https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800;900&display=swap',
+];
+
+self.addEventListener('install', event => {
+    // Tidak pakai skipWaiting() di sini agar SW baru menunggu user konfirmasi
+    // skipWaiting() hanya dipanggil saat user klik "Perbarui" via postMessage
+    event.waitUntil(
+        caches.open(CACHE_NAME).then(cache =>
+            // Cache lokal files dulu, CDN boleh gagal (akan di-cache saat pertama load)
+            Promise.allSettled([
+                ...LOCAL_FILES.map(f => cache.add(f).catch(() => {})),
+                ...CDN_FILES.map(f => cache.add(f).catch(() => {})),
+            ])
+        )
+    );
+});
+
+self.addEventListener('activate', event => {
+    event.waitUntil(
+        caches.keys()
+            .then(keys => Promise.all(
+                keys.filter(k => k !== CACHE_NAME).map(k => caches.delete(k))
+            ))
+            .then(() => self.clients.claim())
+    );
+});
+
+self.addEventListener('fetch', event => {
+    const req = event.request;
+    if (req.method !== 'GET') return;
+
+    const url = new URL(req.url);
+    const isCDN = url.origin !== self.location.origin;
+
+    // Navigation request (buka halaman): cache-first, fallback ke index.html
+    // Ini menangani kasus shortcut PWA yang menyimpan URL /index.html
+    if (req.mode === 'navigate') {
+        event.respondWith(
+            caches.match(req)
+                .then(cached => cached || caches.match('./index.html'))
+                .then(cached => {
+                    if (cached) {
+                        // Update cache di background
+                        fetch(req).then(resp => {
+                            if (resp && resp.status === 200)
+                                caches.open(CACHE_NAME).then(c => c.put(req, resp.clone()));
+                        }).catch(() => {});
+                        return cached;
+                    }
+                    return fetch(req);
+                })
+        );
+        return;
+    }
+
+    if (isCDN) {
+        // CDN: cache-first
+        event.respondWith(
+            caches.match(req).then(cached => {
+                if (cached) return cached;
+                return fetch(req).then(resp => {
+                    if (resp && resp.status === 200)
+                        caches.open(CACHE_NAME).then(c => c.put(req, resp.clone()));
+                    return resp;
+                }).catch(() => cached);
+            })
+        );
+    } else {
+        // Lokal: cache-first, update di background
+        event.respondWith(
+            caches.match(req).then(cached => {
+                const network = fetch(req).then(resp => {
+                    if (resp && resp.status === 200)
+                        caches.open(CACHE_NAME).then(c => c.put(req, resp.clone()));
+                    return resp;
+                }).catch(() => null);
+                return cached || network;
+            })
+        );
+    }
+});
+
+// Terima pesan SKIP_WAITING dari update banner
+self.addEventListener('message', event => {
+    if (event.data && event.data.type === 'SKIP_WAITING') {
+        self.skipWaiting();
+    }
+});
